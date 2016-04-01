@@ -1,0 +1,4 @@
+core = "7.x"
+description = "Show the latest entries from the mPruvr app database"
+name = "mPruvr Tracker Module"
+stylesheets[all][] = mpruvr.css

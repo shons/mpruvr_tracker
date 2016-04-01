@@ -1,0 +1,86 @@
+<?php
+/**
+ * A simple module that gets goals (mpruvrs) from the mpruvr database and displays in a list
+ *
+ * Date: 3/31/16
+ */
+
+/**
+ *
+ * Shows Help details about this module.
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+function mpruvr_tracker_help($path, $arg) {
+ switch ($path) {
+  case "admin/help#mpruvr_tracker":
+   return '' . t("Gets goals (mPruvrs) from the mpruvr database and displays in a list") . '';
+   break;
+ }
+}
+
+/**
+ * Uses hook_block_info().
+ */
+function mpruvr_tracker_block_info() {
+ $blocks['mpruvr_tracker'] = array(
+  // The name that will appear in the block list.
+  'info' => t('Latest mPruvrs'),
+  // Default setting.
+  'cache' => DRUPAL_CACHE_PER_ROLE,
+ );
+ return $blocks;
+}
+
+/**
+ * Custom content function.
+ * Get goals from mPruvr API
+ *
+ * @return
+ *   A list of mPruvr goals.
+ */
+
+function mpruvr_tracker_contents(){
+ $request = drupal_http_request('http://www.marblesmedia.com/mpruvr/api/public/get_goals');
+
+ return drupal_json_decode($request->data);
+}
+
+/**
+ * Implements hook_block_view().
+ * Prepares the contents of the block.
+ */
+function mpruvr_tracker_block_view($delta = '') {
+ switch ($delta) {
+  case 'mpruvr_tracker':
+   $block['subject'] = t('Latest mPruvrs');
+   if (user_access('access content')) {
+    // Use our custom function to retrieve data.
+    $result = mpruvr_tracker_contents();
+
+    dpm($result);
+    // Array to contain items for the block to render.
+    $items = array();
+    // Iterate over the results and format in ul.
+    foreach ($result as $goal) {
+     $items[] = array(
+      'data' => $goal['focus'],
+     );
+    }
+    // No content in the last week.
+    if (empty($items)) {
+     $block['content'] = t('No mPruvrs available.');
+    }
+    else {
+     // Pass data through theme function.
+     $block['content'] = theme('item_list', array(
+      'items' => $items));
+    }
+   }
+   return $block;
+ }
+
+}

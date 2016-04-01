@@ -1,0 +1,18 @@
+
+.block-mpruvr-tracker {
+    border: 2px dotted #eee;
+}
+.block-mpruvr-tracker h2 {
+    background-color: #eeeeff;
+    font-weight: normal;
+    text-align: center;
+}
+.block-mpruvr-tracker ul {
+    padding: 0 0 0 15px;
+    margin:1em 0;
+}
+.block-mpruvr-tracker .item-list li {
+    color: #333;
+    list-style: outside none none;
+}
+
