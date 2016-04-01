@@ -1,6 +1,6 @@
 <?php
 /**
- * A simple module that gets goals (mpruvrs) from the mpruvr database and displays in a list
+ * A simple module that gets goals (mpruvrs) from the mpruvr API and displays in a list
  *
  * Date: 3/31/16
  */
@@ -9,10 +9,6 @@
  *
  * Shows Help details about this module.
  *
- * @param path
- *   Which path of the site we're using to display help
- * @param arg
- *   Array that holds the current path as returned from arg() function
  */
 function mpruvr_tracker_help($path, $arg) {
  switch ($path) {
